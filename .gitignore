@@ -1,0 +1,13 @@
+.classpath
+.project
+.settings/*
+core/*
+examples/*
+lib_managed/*
+project/*
+sampler-cluster/*
+sampler-core/*
+sampler-examples/*
+sampler-spike/*
+spike/*
+target/*
