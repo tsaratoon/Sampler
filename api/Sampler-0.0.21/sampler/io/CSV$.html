@@ -39,8 +39,17 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Object for handling .csv files</p><p> Can be used to read data from, write data to or perform operations on .csv files.
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Facilitates the reading and writing of csv files</p><h5> Reading files </h5><p> This object provides methods to read in data from csv files and also query the header line,
+ including the ability to match the header to expected content</p><pre><span class="kw">val</span> file = java.nio.file.Paths.get(<span class="lit">"test.csv"</span>)
+CSV.header(file)</pre><p> Running the above code in the Scala interpreter would yield:</p><pre>res: <span class="std">Map</span>[<span class="std">String</span>,<span class="std">Int</span>] = <span class="std">Map</span>(Col1 -&gt; <span class="num">0</span>, Col2 -&gt; <span class="num">1</span>, Col3 -&gt; <span class="num">2</span>)</pre><p> Files can be read in either in their entirety, or part thereof based on requested column headers.</p><pre><span class="kw">val</span> file = java.nio.file.Paths.get(<span class="lit">"test.csv"</span>)
+<span class="kw">val</span> wholeFile = CSV.read(file)
+<span class="kw">val</span> selectedColumns = CSV.readByHeader(file, <span class="lit">"Col1"</span>, <span class="lit">"Col3"</span>)</pre><p> Running the above in the Scala interpreter would yield:</p><pre>&gt; wholeFile.toIndexedSeq
+res: IndexedSeq[IndexedSeq[<span class="std">String</span>]] = Vector(ArraySeq(Col1, Col2, Col3), ArraySeq(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>), ArraySeq(<span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span>))
+&gt; selectedColumns.toIndexedSeq
+res: IndexedSeq[IndexedSeq[<span class="std">String</span>]] = Vector(ArraySeq(Col1, Col3), ArraySeq(<span class="num">1</span>, <span class="num">3</span>), ArraySeq(<span class="num">4</span>, <span class="num">6</span>))</pre><h5> Writing files </h5><p> Data, in the form of a Traversable of Traversables, can be written to disk given a path to a file. The
+ file writing methods use the Java.nio StandardOpenOptions to define how a file should be written.</p><pre><span class="kw">val</span> outFile = java.nio.file.Paths.get(<span class="lit">"testOut.csv"</span>)
+<span class="kw">val</span> outData = <span class="std">Seq</span>(<span class="std">Seq</span>(<span class="lit">"Col1"</span>, <span class="lit">"Col2"</span>, <span class="lit">"Col3"</span>),<span class="std">Seq</span>(<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>),<span class="std">Seq</span>(<span class="num">4</span>,<span class="num">5</span>,<span class="num">6</span>))
+CSV.writeLines(outFile, outData, StandardOpenOption.CREATE)</pre></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -176,8 +185,9 @@
         <span class="name">assertHeader</span><span class="params">(<span name="filePath">filePath: <span class="extype" name="java.nio.file.Path">Path</span></span>, <span name="expected">expected: <span class="extype" name="scala.Predef.String">String</span>*</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Read in the first line of a .</p><div class="fullcomment"><div class="comment cmt"><p>Read in the first line of a .csv file and checks it matches the headers of interest
-</p></div><dl class="paramcmts block"><dt class="param">filePath</dt><dd class="cmt"><p>The path to the .csv file of interest</p></dd><dt class="param">expected</dt><dd class="cmt"><p>The strings expected in the header
+      <p class="shortcomment cmt">Read in the first line of a csv file and checks it matches the headers of interest
+</p><div class="fullcomment"><div class="comment cmt"><p>Read in the first line of a csv file and checks it matches the headers of interest
+</p></div><dl class="paramcmts block"><dt class="param">filePath</dt><dd class="cmt"><p>The path to the csv file of interest</p></dd><dt class="param">expected</dt><dd class="cmt"><p>The strings expected in the header
 </p></dd></dl></div>
     </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a>
@@ -281,8 +291,9 @@
         <span class="name">header</span><span class="params">(<span name="filePath">filePath: <span class="extype" name="java.nio.file.Path">Path</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>]</span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Reads in the first line of a .</p><div class="fullcomment"><div class="comment cmt"><p>Reads in the first line of a .csv file and returns a map of the header to its column index
-</p></div><dl class="paramcmts block"><dt class="param">filePath</dt><dd class="cmt"><p>The path to the .csv file of interest</p></dd><dt>returns</dt><dd class="cmt"><p>Map from a String (the header) to an Integer (the column index of that header)
+      <p class="shortcomment cmt">Reads in the first line of a csv file and returns a map of the header to its column index
+</p><div class="fullcomment"><div class="comment cmt"><p>Reads in the first line of a csv file and returns a map of the header to its column index
+</p></div><dl class="paramcmts block"><dt class="param">filePath</dt><dd class="cmt"><p>The path to the csv file of interest</p></dd><dt>returns</dt><dd class="cmt"><p>Map from a String (the header) to an Integer (the column index of that header)
 </p></dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
@@ -348,8 +359,9 @@
         <span class="name">read</span><span class="params">(<span name="filePath">filePath: <span class="extype" name="java.nio.file.Path">Path</span></span>)</span><span class="result">: <span class="extype" name="scala.Iterator">Iterator</span>[<span class="extype" name="scala.IndexedSeq">IndexedSeq</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Reads in the data in a .</p><div class="fullcomment"><div class="comment cmt"><p>Reads in the data in a .csv file
-</p></div><dl class="paramcmts block"><dt class="param">filePath</dt><dd class="cmt"><p>The path to the .csv file to be read in</p></dd><dt>returns</dt><dd class="cmt"><p>An iterator which contains each line of data as a IndexedSeq of Strings
+      <p class="shortcomment cmt">Reads in the data in a csv file
+</p><div class="fullcomment"><div class="comment cmt"><p>Reads in the data in a csv file
+</p></div><dl class="paramcmts block"><dt class="param">filePath</dt><dd class="cmt"><p>The path to the csv file to be read in</p></dd><dt>returns</dt><dd class="cmt"><p>An iterator which contains each line of data as a IndexedSeq of Strings
 </p></dd></dl></div>
     </li><li name="sampler.io.CSV#readByHeader" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="readByHeader(filePath:java.nio.file.Path,headers:String*):Iterator[IndexedSeq[String]]"></a>
@@ -363,8 +375,9 @@
         <span class="name">readByHeader</span><span class="params">(<span name="filePath">filePath: <span class="extype" name="java.nio.file.Path">Path</span></span>, <span name="headers">headers: <span class="extype" name="scala.Predef.String">String</span>*</span>)</span><span class="result">: <span class="extype" name="scala.Iterator">Iterator</span>[<span class="extype" name="scala.IndexedSeq">IndexedSeq</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Reads in selected columns from a .</p><div class="fullcomment"><div class="comment cmt"><p>Reads in selected columns from a .csv file
-</p></div><dl class="paramcmts block"><dt class="param">filePath</dt><dd class="cmt"><p>The path to the .csv file to be read in</p></dd><dt class="param">headers</dt><dd class="cmt"><p>The header titles for the required columns</p></dd><dt>returns</dt><dd class="cmt"><p>An iterator which contains each line of data as a IndexedSeq of Strings
+      <p class="shortcomment cmt">Reads in selected columns from a csv file
+</p><div class="fullcomment"><div class="comment cmt"><p>Reads in selected columns from a csv file
+</p></div><dl class="paramcmts block"><dt class="param">filePath</dt><dd class="cmt"><p>The path to the csv file to be read in</p></dd><dt class="param">headers</dt><dd class="cmt"><p>The header titles for the required columns</p></dd><dt>returns</dt><dd class="cmt"><p>An iterator which contains each line of data as a IndexedSeq of Strings
 </p></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
@@ -404,8 +417,9 @@
         <span class="name">transpose</span><span class="params">(<span name="inPath">inPath: <span class="extype" name="java.nio.file.Path">Path</span></span>, <span name="outFile">outFile: <span class="extype" name="java.nio.file.Path">Path</span></span>, <span name="removeHeader">removeHeader: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="outputOpenOptions">outputOpenOptions: <span class="extype" name="java.nio.file.OpenOption">OpenOption</span>*</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Reads in a .</p><div class="fullcomment"><div class="comment cmt"><p>Reads in a .csv file, transposes the data and writes to another .csv
-</p></div><dl class="paramcmts block"><dt class="param">inPath</dt><dd class="cmt"><p>The path to the .csv file containing the data to be transposed</p></dd><dt class="param">outFile</dt><dd class="cmt"><p>The path to the .csv file to write the transposed data to</p></dd><dt class="param">removeHeader</dt><dd class="cmt"><p>Set to true if the data file contains a header line that needs removing before transposition</p></dd></dl></div>
+      <p class="shortcomment cmt">Reads in a csv file, transposes the data and writes to another csv
+</p><div class="fullcomment"><div class="comment cmt"><p>Reads in a csv file, transposes the data and writes to another csv
+</p></div><dl class="paramcmts block"><dt class="param">inPath</dt><dd class="cmt"><p>The path to the csv file containing the data to be transposed</p></dd><dt class="param">outFile</dt><dd class="cmt"><p>The path to the csv file to write the transposed data to</p></dd><dt class="param">removeHeader</dt><dd class="cmt"><p>Set to true if the data file contains a header line that needs removing before transposition</p></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
@@ -475,8 +489,9 @@
         <span class="name">writeLine</span><span class="params">(<span name="filePath">filePath: <span class="extype" name="java.nio.file.Path">Path</span></span>, <span name="line">line: <span class="extype" name="scala.Traversable">Traversable</span>[<span class="extype" name="scala.Any">Any</span>]</span>, <span name="openOptions">openOptions: <span class="extype" name="java.nio.file.OpenOption">OpenOption</span>*</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Write a single line to a .</p><div class="fullcomment"><div class="comment cmt"><p>Write a single line to a .csv file
-</p></div><dl class="paramcmts block"><dt class="param">filePath</dt><dd class="cmt"><p>The path to the .csv file of interest</p></dd><dt class="param">line</dt><dd class="cmt"><p>The data to be written to the file</p></dd><dt class="param">openOptions</dt><dd class="cmt"><p>Options specifying how the file is opened
+      <p class="shortcomment cmt">Write a single line to a csv file
+</p><div class="fullcomment"><div class="comment cmt"><p>Write a single line to a csv file
+</p></div><dl class="paramcmts block"><dt class="param">filePath</dt><dd class="cmt"><p>The path to the csv file of interest</p></dd><dt class="param">line</dt><dd class="cmt"><p>The data to be written to the file</p></dd><dt class="param">openOptions</dt><dd class="cmt"><p>Options specifying how the file is opened
 </p></dd></dl></div>
     </li><li name="sampler.io.CSV#writeLines" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="writeLines(filePath:java.nio.file.Path,lines:Traversable[Traversable[Any]],openOptions:java.nio.file.OpenOption*):Unit"></a>
@@ -490,8 +505,9 @@
         <span class="name">writeLines</span><span class="params">(<span name="filePath">filePath: <span class="extype" name="java.nio.file.Path">Path</span></span>, <span name="lines">lines: <span class="extype" name="scala.Traversable">Traversable</span>[<span class="extype" name="scala.Traversable">Traversable</span>[<span class="extype" name="scala.Any">Any</span>]]</span>, <span name="openOptions">openOptions: <span class="extype" name="java.nio.file.OpenOption">OpenOption</span>*</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Write multiples lines to a .</p><div class="fullcomment"><div class="comment cmt"><p>Write multiples lines to a .csv file
-</p></div><dl class="paramcmts block"><dt class="param">filePath</dt><dd class="cmt"><p>The path to the .csv file of interest</p></dd><dt class="param">lines</dt><dd class="cmt"><p>The data to be written to the file</p></dd><dt class="param">openOptions</dt><dd class="cmt"><p>Options specifying how the file is opened
+      <p class="shortcomment cmt">Write multiples lines to a csv file
+</p><div class="fullcomment"><div class="comment cmt"><p>Write multiples lines to a csv file
+</p></div><dl class="paramcmts block"><dt class="param">filePath</dt><dd class="cmt"><p>The path to the csv file of interest</p></dd><dt class="param">lines</dt><dd class="cmt"><p>The data to be written to the file</p></dd><dt class="param">openOptions</dt><dd class="cmt"><p>Options specifying how the file is opened
 </p></dd></dl></div>
     </li></ol>
             </div>

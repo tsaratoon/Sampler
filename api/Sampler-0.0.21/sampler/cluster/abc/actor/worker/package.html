@@ -1,0 +1,277 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>worker - sampler.cluster.abc.actor.worker</title>
+          <meta name="description" content="worker - sampler.cluster.abc.actor.worker" />
+          <meta name="keywords" content="worker sampler.cluster.abc.actor.worker" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../../../index.html';
+            var hash = 'sampler.cluster.abc.actor.worker.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img src="../../../../../lib/package_big.png" />
+        <p id="owner"><a href="../../../../package.html" class="extype" name="sampler">sampler</a>.<a href="../../../package.html" class="extype" name="sampler.cluster">cluster</a>.<a href="../../package.html" class="extype" name="sampler.cluster.abc">abc</a>.<a href="../package.html" class="extype" name="sampler.cluster.abc.actor">actor</a></p>
+        <h1>worker</h1>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">worker</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        
+        
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="sampler.cluster.abc.actor.worker.Client" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ClientextendsDatawithProductwithSerializable"></a>
+      <a id="Client:Client"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Client.html"><span class="name">Client</span></a><span class="params">(<span name="actorRef">actorRef: <span class="extype" name="akka.actor.ActorRef">ActorRef</span></span>)</span><span class="result"> extends <a href="Data.html" class="extype" name="sampler.cluster.abc.actor.worker.Data">Data</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="sampler.cluster.abc.actor.worker.Data" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="DataextendsAnyRef"></a>
+      <a id="Data:Data"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="Data.html"><span class="name">Data</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="sampler.cluster.abc.actor.worker.DetectedAbortionException" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DetectedAbortionExceptionextendsException"></a>
+      <a id="DetectedAbortionException:DetectedAbortionException"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="DetectedAbortionException.html"><span class="name">DetectedAbortionException</span></a><span class="result"> extends <span class="extype" name="scala.Exception">Exception</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="sampler.cluster.abc.actor.worker.MaxRetryException" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="MaxRetryExceptionextendsRuntimeException"></a>
+      <a id="MaxRetryException:MaxRetryException"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="MaxRetryException.html"><span class="name">MaxRetryException</span></a><span class="result"> extends <span class="extype" name="scala.RuntimeException">RuntimeException</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="sampler.cluster.abc.actor.worker.ModelRunnerComponent" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ModelRunnerComponent[P]extendsAnyRef"></a>
+      <a id="ModelRunnerComponent[P]:ModelRunnerComponent[P]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ModelRunnerComponent.html"><span class="name">ModelRunnerComponent</span></a><span class="tparams">[<span name="P">P</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="sampler.cluster.abc.actor.worker.NextJob" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="NextJob[P]extendsDatawithProductwithSerializable"></a>
+      <a id="NextJob[P]:NextJob[P]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="NextJob.html"><span class="name">NextJob</span></a><span class="tparams">[<span name="P">P</span>]</span><span class="params">(<span name="job">job: <a href="../Job.html" class="extype" name="sampler.cluster.abc.actor.Job">Job</a>[<span class="extype" name="sampler.cluster.abc.actor.worker.NextJob.P">P</span>]</span>, <span name="client">client: <a href="Client.html" class="extype" name="sampler.cluster.abc.actor.worker.Client">Client</a></span>)</span><span class="result"> extends <a href="Data.html" class="extype" name="sampler.cluster.abc.actor.worker.Data">Data</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="sampler.cluster.abc.actor.worker.State" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="StateextendsAnyRef"></a>
+      <a id="State:State"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="State.html"><span class="name">State</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="sampler.cluster.abc.actor.worker.WeigherComponent" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="WeigherComponent[P]extendsAnyRef"></a>
+      <a id="WeigherComponent[P]:WeigherComponent[P]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="WeigherComponent.html"><span class="name">WeigherComponent</span></a><span class="tparams">[<span name="P">P</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="sampler.cluster.abc.actor.worker.WorkerActor" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="WorkerActor[P]extendsActorwithFSM[sampler.cluster.abc.actor.worker.State,sampler.cluster.abc.actor.worker.Data]withActorLoggingwithModelRunnerComponent[P]withWeigherComponent[P]"></a>
+      <a id="WorkerActor[P]:WorkerActor[P]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="WorkerActor.html"><span class="name">WorkerActor</span></a><span class="tparams">[<span name="P">P</span>]</span><span class="result"> extends <span class="extype" name="akka.actor.Actor">Actor</span> with <span class="extype" name="akka.actor.FSM">FSM</span>[<a href="State.html" class="extype" name="sampler.cluster.abc.actor.worker.State">State</a>, <a href="Data.html" class="extype" name="sampler.cluster.abc.actor.worker.Data">Data</a>] with <span class="extype" name="akka.actor.ActorLogging">ActorLogging</span> with <a href="ModelRunnerComponent.html" class="extype" name="sampler.cluster.abc.actor.worker.ModelRunnerComponent">ModelRunnerComponent</a>[<span class="extype" name="sampler.cluster.abc.actor.worker.WorkerActor.P">P</span>] with <a href="WeigherComponent.html" class="extype" name="sampler.cluster.abc.actor.worker.WeigherComponent">WeigherComponent</a>[<span class="extype" name="sampler.cluster.abc.actor.worker.WorkerActor.P">P</span>]</span>
+      </span>
+      </h4>
+      
+    </li><li name="sampler.cluster.abc.actor.worker.WorkerActorImpl" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="WorkerActorImpl[P]extendsWorkerActor[P]"></a>
+      <a id="WorkerActorImpl[P]:WorkerActorImpl[P]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="WorkerActorImpl.html"><span class="name">WorkerActorImpl</span></a><span class="tparams">[<span name="P">P</span>]</span><span class="result"> extends <a href="WorkerActor.html" class="extype" name="sampler.cluster.abc.actor.worker.WorkerActor">WorkerActor</a>[<span class="extype" name="sampler.cluster.abc.actor.worker.WorkerActorImpl.P">P</span>]</span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="sampler.cluster.abc.actor.worker.AwaitingAbortConfirmation" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="AwaitingAbortConfirmation"></a>
+      <a id="AwaitingAbortConfirmation:AwaitingAbortConfirmation"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="AwaitingAbortConfirmation$.html"><span class="name">AwaitingAbortConfirmation</span></a><span class="result"> extends <a href="State.html" class="extype" name="sampler.cluster.abc.actor.worker.State">State</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="sampler.cluster.abc.actor.worker.Idle" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Idle"></a>
+      <a id="Idle:Idle"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Idle$.html"><span class="name">Idle</span></a><span class="result"> extends <a href="State.html" class="extype" name="sampler.cluster.abc.actor.worker.State">State</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="sampler.cluster.abc.actor.worker.Uninitialised" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Uninitialised"></a>
+      <a id="Uninitialised:Uninitialised"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Uninitialised$.html"><span class="name">Uninitialised</span></a><span class="result"> extends <a href="Data.html" class="extype" name="sampler.cluster.abc.actor.worker.Data">Data</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="sampler.cluster.abc.actor.worker.Working" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Working"></a>
+      <a id="Working:Working"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Working$.html"><span class="name">Working</span></a><span class="result"> extends <a href="State.html" class="extype" name="sampler.cluster.abc.actor.worker.State">State</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+      <script defer="defer" type="text/javascript" id="jquery-js" src="../../../../../lib/jquery.js"></script><script defer="defer" type="text/javascript" id="jquery-ui-js" src="../../../../../lib/jquery-ui.js"></script><script defer="defer" type="text/javascript" id="tools-tooltip-js" src="../../../../../lib/tools.tooltip.js"></script><script defer="defer" type="text/javascript" id="template-js" src="../../../../../lib/template.js"></script>
+    </body>
+      </html>
