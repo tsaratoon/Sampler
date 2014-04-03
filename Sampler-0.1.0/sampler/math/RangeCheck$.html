@@ -39,7 +39,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Object to allow  checking that a value is a valid probability or is within a given range</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -305,7 +305,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="sampler.math.RangeCheck#probability" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="sampler.math.RangeCheck#probability" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="probability[T](p:T)(implicitevidence$2:Fractional[T]):Unit"></a>
       <a id="probability[T](T)(Fractional[T]):Unit"></a>
       <h4 class="signature">
@@ -317,7 +317,10 @@
         <span class="name">probability</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="p">p: <span class="extype" name="sampler.math.RangeCheck.probability.T">T</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.Fractional">Fractional</span>[<span class="extype" name="sampler.math.RangeCheck.probability.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Checks that a given value is a valid probability
+</p><div class="fullcomment"><div class="comment cmt"><p>Checks that a given value is a valid probability
+</p></div><dl class="paramcmts block"><dt class="param">p</dt><dd class="cmt"><p>The value to be checked as a valid probability
+</p></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -401,7 +404,7 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="sampler.math.RangeCheck#within" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="sampler.math.RangeCheck#within" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="within[T](actual:T,expected:T,tolerance:T)(implicitevidence$3:Fractional[T]):Unit"></a>
       <a id="within[T](T,T,T)(Fractional[T]):Unit"></a>
       <h4 class="signature">
@@ -413,7 +416,12 @@
         <span class="name">within</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="actual">actual: <span class="extype" name="sampler.math.RangeCheck.within.T">T</span></span>, <span name="expected">expected: <span class="extype" name="sampler.math.RangeCheck.within.T">T</span></span>, <span name="tolerance">tolerance: <span class="extype" name="sampler.math.RangeCheck.within.T">T</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.Fractional">Fractional</span>[<span class="extype" name="sampler.math.RangeCheck.within.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      
+      <p class="shortcomment cmt">Used to check if a given value is close enough to an expected value (determined
+ by a tolerance) to be considered equal
+</p><div class="fullcomment"><div class="comment cmt"><p>Used to check if a given value is close enough to an expected value (determined
+ by a tolerance) to be considered equal
+</p></div><dl class="paramcmts block"><dt class="param">actual</dt><dd class="cmt"><p>The value to be tested</p></dd><dt class="param">expected</dt><dd class="cmt"><p>The expected value, that equality is tested against</p></dd><dt class="param">tolerance</dt><dd class="cmt"><p>The acceptable tolerance for deviation from the expected value
+</p></dd></dl></div>
     </li></ol>
             </div>
 
