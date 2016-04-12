@@ -5,7 +5,7 @@ import sampler.r.rserve.RServeHelper
 import farrington.core.simulate.SimulateOutbreakData
 import farrington.core.algorithm.Farrington
 import farrington.core.algorithm.EDS
-import sampler.r.process.ScriptRunner
+import sampler.r.script.RScript
 import farrington.core.script.CreateRScript
 import java.nio.file.Files
 import java.nio.charset.Charset
@@ -120,7 +120,7 @@ object CompareEDS extends App {
   val rScript_stats = CreateRScript.statsToTable(csv_Stats)
   
   // Run the script in R and save the resulting PDF in the results directory
-  ScriptRunner.apply(rScript_stats, resultsDir.resolve(scriptName_Stats))
+  RScript.apply(rScript_stats, resultsDir.resolve(scriptName_Stats))
   
   //=======================
   // Output and plot: Time to detection
@@ -150,8 +150,8 @@ object CompareEDS extends App {
   val rScript_stl = CreateRScript.plotTTD(csv_Stl, pdf_Stl)
   
   // Run the script in R and save the resulting PDF in the results directory
-  ScriptRunner.apply(rScript_apha, resultsDir.resolve(script_APHA))
-  ScriptRunner.apply(rScript_farNew, resultsDir.resolve(script_FarNew))
-  ScriptRunner.apply(rScript_stl, resultsDir.resolve(script_Stl))
+  RScript.apply(rScript_apha, resultsDir.resolve(script_APHA))
+  RScript.apply(rScript_farNew, resultsDir.resolve(script_FarNew))
+  RScript.apply(rScript_stl, resultsDir.resolve(script_Stl))
   
 }

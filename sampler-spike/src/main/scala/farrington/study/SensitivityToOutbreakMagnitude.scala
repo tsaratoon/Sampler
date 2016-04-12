@@ -11,7 +11,7 @@ import farrington.core.measures.AverageMeasures
 import farrington.core.script.CreateRScript
 import java.nio.charset.Charset
 import java.nio.file.Path
-import sampler.r.process.ScriptRunner
+import sampler.r.script.RScript
 import java.nio.file.Files
 
 object SensitivityToOutbreakMagnitude extends App {  
@@ -104,7 +104,7 @@ object SensitivityToOutbreakMagnitude extends App {
     val rScript = CreateRScript.plotTwo(measure, csvName, pdfName)
       
     // Run the script in R and save the resulting PDF in the results directory
-    ScriptRunner.apply(rScript, resultsDir.resolve(scriptName))
+    RScript.apply(rScript, resultsDir.resolve(scriptName))
     
   }
 

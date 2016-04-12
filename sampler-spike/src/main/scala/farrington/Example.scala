@@ -1,6 +1,6 @@
 package farrington
 
-import sampler.r.process.ScriptRunner
+import sampler.r.script.RScript
 import farrington.core.simulate.OutbreakData
 import farrington.core.simulate.SimulateOutbreakData
 import java.nio.file.Paths
@@ -56,7 +56,7 @@ object Example extends App {
   //=======================
   // Create R script, run the script in R and save the resulting PDF in the results directory
   val rScript_simData = CreateRScript.plotSimulatedData(csvSimData, pdfSimData)
-  ScriptRunner.apply(rScript_simData, resultsDir.resolve(scriptSimData))
+  RScript.apply(rScript_simData, resultsDir.resolve(scriptSimData))
   println("Outbreak data plots written to " + pdfSimData)
   
   //=======================
@@ -88,7 +88,7 @@ object Example extends App {
   println("EDS results written to " + csvCompare)
   
   val rScript_comparison = CreateRScript.plotComparison(csvCompare, pdfCompare)
-  ScriptRunner.apply(rScript_comparison, resultsDir.resolve(scriptCompare))
+  RScript.apply(rScript_comparison, resultsDir.resolve(scriptCompare))
   println("EDS comparison plots written to " + pdfCompare)
 
 }

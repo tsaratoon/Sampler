@@ -1,6 +1,6 @@
 package farrington.study
 
-import sampler.r.process.ScriptRunner
+import sampler.r.script.RScript
 import java.nio.charset.Charset
 import java.nio.file.Files
 import farrington.core.algorithm.EDS
@@ -210,6 +210,6 @@ object SplitOutbreak {
     """
   
   // Run the script in R and save the resulting PDF in the results directory
-  ScriptRunner.apply(rScript, resultsDir.resolve(scriptName))
+  RScript.apply(rScript, resultsDir.resolve(scriptName))
 
 }

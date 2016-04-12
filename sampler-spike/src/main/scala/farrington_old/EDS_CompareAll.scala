@@ -73,12 +73,12 @@ import org.json4s.native.JsonMethods
 import java.nio.charset.Charset
 import java.nio.file.Path
 import java.io.OutputStream
-import sampler.spike.farrington_old.Farrington.Mode
-import sampler.spike.farrington_old.Farrington.APHA
-import sampler.spike.farrington_old.Farrington.Stl
-import sampler.spike.farrington_old.Farrington.FarNew
-import sampler.r.process.ScriptRunner
+import farrington_old.Farrington.Mode
+import farrington_old.Farrington.APHA
+import farrington_old.Farrington.Stl
+import farrington_old.Farrington.FarNew
 import farrington.core.script.CreateRScript
+import sampler.r.script.RScript
 
 
 object EDS_CompareAll extends App{
@@ -210,6 +210,6 @@ object EDS_CompareAll extends App{
   val rScript = CreateRScript.plotComparison(csvName, pdfName)
   
   // Run the script in R and save the resulting PDF in the results directory
-  ScriptRunner.apply(rScript, resultsDir.resolve(scriptName)) 
+  RScript.apply(rScript, resultsDir.resolve(scriptName)) 
 
 }

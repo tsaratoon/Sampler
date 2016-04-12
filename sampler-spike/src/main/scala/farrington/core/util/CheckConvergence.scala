@@ -9,7 +9,7 @@ import farrington.core.algorithm.EDS
 import farrington.core.algorithm.Farrington
 import farrington.core.measures.Measures
 import java.nio.charset.Charset
-import sampler.r.process.ScriptRunner
+import sampler.r.script.RScript
 
 object CheckConvergence extends App {
   
@@ -90,6 +90,6 @@ object CheckConvergence extends App {
     """
   
   // Run the script in R and save the resulting PDF in the results directory
-  ScriptRunner.apply(rScript, resultsDir.resolve(scriptName))
+  RScript.apply(rScript, resultsDir.resolve(scriptName))
 
 }

@@ -5,10 +5,10 @@ import sampler.r.rserve.RServeHelper
 import java.nio.file.Files
 import java.nio.charset.Charset
 import java.nio.file.Path
-import sampler.r.process.ScriptRunner
-import sampler.spike.farrington_old.Farrington.FarNew
-import sampler.spike.farrington_old.Farrington.APHA
-import sampler.spike.farrington_old.Farrington.Stl
+import farrington_old.Farrington.FarNew
+import farrington_old.Farrington.APHA
+import farrington_old.Farrington.Stl
+import sampler.r.script.RScript
 
 /*
   =========
@@ -276,7 +276,7 @@ object EDS_magnitude extends App{
       """
       
     // Run the script in R and save the resulting PDF in the results directory
-    ScriptRunner.apply(rScript, resultsDir.resolve(scriptName))
+    RScript.apply(rScript, resultsDir.resolve(scriptName))
     
   }
       

@@ -30,11 +30,10 @@ import org.json4s.native.JsonMethods
 import java.nio.charset.Charset
 import java.nio.file.Path
 import java.io.OutputStream
-import sampler.spike.farrington_old.Farrington.Mode
-import sampler.spike.farrington_old.Farrington.APHA
-import sampler.spike.farrington_old.Farrington.Stl
-import sampler.spike.farrington_old.Farrington.FarNew
-import sampler.r.process.ScriptRunner
+import farrington_old.Farrington.Mode
+import farrington_old.Farrington.APHA
+import farrington_old.Farrington.Stl
+import farrington_old.Farrington.FarNew
 
 object EDS_original extends App{
 

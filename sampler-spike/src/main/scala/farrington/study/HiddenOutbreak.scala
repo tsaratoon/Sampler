@@ -11,7 +11,7 @@ import farrington.core.measures.Measures
 import farrington.core.simulate.BaselineData
 import farrington.core.simulate.OutbreakData
 import farrington.core.simulate.SimulateOutbreakData
-import sampler.r.process.ScriptRunner
+import sampler.r.script.RScript
 import sampler.r.rserve.RServeHelper
 import org.rosuda.REngine.Rserve.RConnection
 
@@ -269,7 +269,7 @@ object HiddenOutbreak extends App{
     """
   
   // Run the script in R and save the resulting PDF in the results directory
-  ScriptRunner.apply(rScript, resultsDir.resolve(scriptName))
+  RScript.apply(rScript, resultsDir.resolve(scriptName))
   
   println("Time to detection saved to " + pdfName)
 

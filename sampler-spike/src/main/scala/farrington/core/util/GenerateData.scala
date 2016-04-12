@@ -4,7 +4,7 @@ import farrington.core.algorithm.Farrington
 import java.nio.file.Paths
 import farrington.core.simulate.SimulateOutbreakData
 import farrington.core.simulate.OutbreakData
-import sampler.r.process.ScriptRunner
+import sampler.r.script.RScript
 
 object GenerateData extends App {
   
@@ -90,6 +90,6 @@ object GenerateData extends App {
     """
   
   // Run the script in R and save the resulting PDF in the results directory
-  ScriptRunner.apply(rScript, resultsDir.resolve(scriptName))
+  RScript.apply(rScript, resultsDir.resolve(scriptName))
 
 }
