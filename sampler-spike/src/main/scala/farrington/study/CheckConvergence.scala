@@ -1,7 +1,6 @@
-package farrington.core.util
+package farrington.study
 
 import sampler.r.rserve.RServeHelper
-import org.rosuda.REngine.Rserve.RConnection
 import java.nio.file.Paths
 import java.nio.file.Files
 import farrington.core.simulate.SimulateOutbreakData

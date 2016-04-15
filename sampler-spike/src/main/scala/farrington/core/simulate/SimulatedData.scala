@@ -15,7 +15,7 @@ case class OutbreakData(
     year: IndexedSeq[Int],
     month: IndexedSeq[Int],
     baseline: IndexedSeq[Int],
-    counts: IndexedSeq[Int],
+    counts: IndexedSeq[Int],   // Baseline counts + outbreak counts (baseline + hist)
     hist: List[(Int, Int)],
     start: Int,
     end: Int,

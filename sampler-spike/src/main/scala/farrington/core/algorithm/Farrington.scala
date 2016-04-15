@@ -100,6 +100,8 @@ object Farrington {
       val date = dataIn.keys.toIndexedSeq
       val value = dataIn.values.toIndexedSeq
       
+      // TODO Check this is dropping from the right side and  add comment
+      
       val resultvec = ResultVector(date, value, rOut)        
       val nDrop = date.length - resultvec.threshold.length
       

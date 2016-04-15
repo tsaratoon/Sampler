@@ -1,5 +1,7 @@
 package farrington.core.result
 
+// TODO Make these case classes clearer
+
 case class FarringtonResult(
     results: ResultVector,
     flags: IndexedSeq[Int]
