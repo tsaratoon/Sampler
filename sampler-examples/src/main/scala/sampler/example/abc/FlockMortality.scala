@@ -64,7 +64,7 @@ object FlockMortality extends App {
 	writer.close()
 	
 	CSV.writeLines(
-			wd.resolve("obseravtions.csv"), 
+			wd.resolve("observations.csv"), 
 			Seq("Eggs", "Dead") +: observed.dailyEggs.zip(observed.dailyEggs).map(_.productIterator.toSeq) 
 	)
 

@@ -76,7 +76,7 @@ object CreateRScript {
     s"""        
       data = read.csv("$csvName")            
       cmin = 0
-      cmax = max(APHA[["count"]], FarNew[["count"]], Stl[["count"]])      
+      cmax = max(data[["count"]])      
       pdf("$pdfName", width=4.13, height=2.91) #A7 landscape paper
       
       barplot(data[["count"]],

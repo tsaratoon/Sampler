@@ -64,11 +64,10 @@ object Farrington {
       parseAndEval("startdte = as.data.frame(fromJSON(jsonIn)$StartDate)")
       parseAndEval(rScript)
       parseAndEval("output")
-    }
-      
-    val rOut = parse(rExpression.asString())     
-
-    val (date, value) = dataIn.last    
+    }      
+    val rOut = parse(rExpression.asString())   
+    
+    val (date, value) = dataIn.last  
     
     Result(date, value, rOut)
     
@@ -95,15 +94,13 @@ object Farrington {
         parseAndEval("startdte = as.data.frame(fromJSON(jsonIn)$StartDate)")
         parseAndEval(rScript)
         parseAndEval("output")
-      }
-      
+      }        
       val rOut = parse(rExpression.asString())
   
       val date = dataIn.keys.toIndexedSeq
       val value = dataIn.values.toIndexedSeq
       
-      val resultvec = ResultVector(date, value, rOut)
-      
+      val resultvec = ResultVector(date, value, rOut)        
       val nDrop = date.length - resultvec.threshold.length
       
       ResultVector(date.drop(nDrop), value.drop(nDrop), rOut)

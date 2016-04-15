@@ -64,9 +64,17 @@ object Example extends App {
   
   // Run EDS for each mode
   RServeHelper.ensureRunning()
+//  val rCon = new RConnection
+  
+//  val result_apha = EDS.run(data, rCon, endBaseline, Farrington.APHA)
+//  val result_farNew = EDS.run(data, rCon, endBaseline, Farrington.FarNew)
+//  val result_stl = EDS.run(data, rCon, endBaseline, Farrington.Stl)
+  
   val result_apha = EDS.run(data, endBaseline, Farrington.APHA)
   val result_farNew = EDS.run(data, endBaseline, Farrington.FarNew)
   val result_stl = EDS.run(data, endBaseline, Farrington.Stl)
+  
+//  rCon.close
   RServeHelper.shutdown
   
   Files.createDirectories(resultsDir)

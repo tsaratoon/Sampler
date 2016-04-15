@@ -12,6 +12,7 @@ import java.nio.file.Paths
 import java.nio.file.Paths
 import farrington.core.measures.Measures
 import farrington.core.measures.AverageMeasures
+import org.rosuda.REngine.Rserve.RConnection
 
 object SplitOutbreak {
   

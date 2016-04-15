@@ -87,7 +87,6 @@ object EDS {
   
   def run(
       data: OutbreakData,
-//      rCon: RConnection,
       endBaseline: Int,
       mode: Mode = APHA,
       nYearsBack: Int = 12,
@@ -123,12 +122,7 @@ object EDS {
     finally {
       rCon.close
     }
-    
-//    val indexedData = indexAndExclude(dataOutbreak, exclusions)
-//    if (stop == "false") runAll(indexedData, rCon, mode, nYearsBack)
-//    else if (stop == "detect") runUntilDetection(indexedData, rCon, mode, nYearsBack)
-//    else runUntilConsecutive(indexedData, rCon, mode, nYearsBack)
-            
+                
   }
   
   // Runs EDS without stopping if flag is found

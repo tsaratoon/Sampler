@@ -11,6 +11,7 @@ import java.nio.file.Files
 import java.nio.charset.Charset
 import farrington.core.measures.AverageMeasures
 import farrington.core.measures.Measures
+import org.rosuda.REngine.Rserve.RConnection
 
 object CompareEDS extends App {
   
@@ -18,7 +19,7 @@ object CompareEDS extends App {
   // User-defined parameters
   
   // Number of sets of data to simulate
-  val nSimulations = 100
+  val nSimulations = 150
   
   // Number of months for which to simulate data:
   val nData = 462
@@ -51,8 +52,8 @@ object CompareEDS extends App {
   
   // R script to import the CSV and plot the data
   val script_APHA = "ttd_apha.r"
-  val script_FarNew = "ttd_apha.r"
-  val script_Stl = "ttd_apha.r"
+  val script_FarNew = "ttd_farNew.r"
+  val script_Stl = "ttd_stl.r"
   
   // PDFs containing the plots
   val pdf_APHA = "ttd_apha.pdf"
@@ -66,32 +67,28 @@ object CompareEDS extends App {
   // Simulation
   
   RServeHelper.ensureRunning()
+
   val measures_apha = (0 until nSimulations).par.map{ i =>
     println(i)
-    val data = SimulateOutbreakData.run(nData, endYear, outbreakShape, outbreakLength, endPreOutbreak, endOutbreak, magnitude)        
+    val data = SimulateOutbreakData.run(nData, endYear, outbreakShape, outbreakLength, endPreOutbreak, endOutbreak, magnitude)    
     val EDS_APHA = EDS.run(data, endBaseline, Farrington.APHA)
     Measures.allMeasures(EDS_APHA, data.start, data.end)
   }.toIndexedSeq
-  RServeHelper.shutdown
   
-  //TODO Check why second R connection refuses
-  
-  RServeHelper.ensureRunning()
   val measures_farNew = (0 until nSimulations).par.map{ i =>
     println(i)    
     val data = SimulateOutbreakData.run(nData, endYear, outbreakShape, outbreakLength, endPreOutbreak, endOutbreak, magnitude)
     val EDS_FarNew = EDS.run(data, endBaseline, Farrington.FarNew)
     Measures.allMeasures(EDS_FarNew, data.start, data.end)
   }.toIndexedSeq
-  RServeHelper.shutdown
   
-  RServeHelper.ensureRunning()
   val measures_stl = (0 until nSimulations).par.map{ i =>
     println(i)    
     val data = SimulateOutbreakData.run(nData, endYear, outbreakShape, outbreakLength, endPreOutbreak, endOutbreak, magnitude)
-    val EDS_Stl = EDS.run(data, endBaseline, Farrington.Stl)      
+    val EDS_Stl = EDS.run(data, endBaseline, Farrington.Stl)  
     Measures.allMeasures(EDS_Stl, data.start, data.end)
   }.toIndexedSeq
+  
   RServeHelper.shutdown
   
   val avgMeasures_apha = AverageMeasures.calculate(measures_apha, nSimulations)
