@@ -8,10 +8,6 @@
      library(rjson)
      jsonIn = fromJSON(file="outR.json")
 	 modeFlag = "FarNew"
-     basedata=jsonIn$Baseline
-     currentmth=jsonIn$Current$Month
-     currentCount=jsonIn$Current$Incident
-     startdte=jsonIn$StartDate
  }
 
 require(rjson)
@@ -31,7 +27,7 @@ resThresh=2.58      #put swithch in java to vary? New Farrington algorithm uses 
 #######################################################
 
 disp<-function(i){
-	calc<- w*( ( (basecont-expected)^2 )/expected)
+	calc<- w*( ( (baselineCount-expected)^2 )/expected)
 	calc[expected<notZero]=notZero
 	calc
 }
@@ -46,7 +42,7 @@ disp<-function(i){
 # if model is to include linear trend then set 'trend0'=1, differnt calc of var
 threshold <-function(z,trend0){
 	ifelse(trend0==1, { 
-				var=varalpha+(currentmth*currentmth)*varbeta+(2*currentmth*covariance)
+				var=varalpha+(currentMonth*currentMonth)*varbeta+(2*currentMonth*covariance)
 			},{ var=varalpha })
 	tao<-(dispersion*expectedc+var)/(expectedc^2)
 	U<-expectedc*(1+(2/3)*z*(tao^0.5))^(3/2)
@@ -59,12 +55,17 @@ threshold <-function(z,trend0){
 #allData = read.csv("/home/user/ENVIRONMENT/workspaces/workspace_scala/FarringtonTest/results/baselineData.txt")
 #allData = as.data.frame(fromJSON(paste(readLines("r-in.json"), collapse="")))
 
-baselineNum = length(basedata$basemth)
-#baseData = allData[1:baselineNum,]
+baseline     = jsonIn$baseline
+currentMonth = jsonIn$current$month
+currentCount = jsonIn$current$incidents
+startDate    = jsonIn$startDate
+
+baselineNum = length(baseline$month)
+#baseline = allData[1:baselineNum,]
 #currentCount = allData[nrow(allData),"Incidents"]
-#currentmth = allData[nrow(allData), "MonthNum"]
-basemth = basedata$basemth
-basecont = basedata$basecont
+#currentMonth = allData[nrow(allData), "MonthNum"]
+baselineMonth = baseline$month
+baselineCount = baseline$count
 tsSeasonal=0   #set to 0 unless use in stl
 tsRandom=0     #set to 0 unless use in stl
 
@@ -73,9 +74,9 @@ library(sp)
 library(xtable)
 library(polyCub)
 library(surveillance)
-#TODO: start needs to be two numbers year, month.  Get this from basedata$basemth???
+#TODO: start needs to be two numbers year, month.  Get this from baseline$baselineMonth???
 
-DataF=disProg2sts(create.disProg(1:baselineNum,basecont,state=basecont*0,start=c(startdte$year,startdte$month),freq=12)) #put in format necessar for farringtonFlexible algorithm
+DataF=disProg2sts(create.disProg(1:baselineNum,baselineCount,state=baselineCount*0,start=c(startDate$year,startDate$month),freq=12)) #put in format necessar for farringtonFlexible algorithm
 
 # define contol parameters: may want to make some of these switches in Scala code?
 #b is number of years to use in calculations, w is number of months to use either side of current month
@@ -118,7 +119,7 @@ expectedc1=control(data1)$expected
 thresh1=upperbound(data1)
 exceed=control(data1)$score
 trend=control(data1)$trend
-w=rep(0,times=length(basedata$basemth))
+w=rep(0,times=length(baseline$baselineMonth))
 
 # Set NA values to 0 (or should we set to something else?)
 expectedc1[is.na(expectedc1)] <- 0

@@ -20,7 +20,7 @@ import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalUnit
 import farrington.core.result.ResultVector
 import scala.collection.immutable.TreeMap
-import farrington.core.simulate.OutbreakData
+import farrington.core.outbreak.OutbreakData
 import sampler.r.rserve.RServeHelper
 import sampler.r.rserve.RServeHelper
 
@@ -97,7 +97,6 @@ object EDS {
     val year = data.year
     val month = data.month 
     val countData = data.counts
-    val tOutbreak = data.start
     
     val nData = countData.size
         
@@ -105,6 +104,7 @@ object EDS {
     val dataOutbreak_all = TreeMap{
       (0 until nData).map{ i => YearMonth.of(year(i), month(i)) -> countData(i) }: _*
     }
+//    println(dataOutbreak_all)
     
     // Exclude set of months if necessary
     val dataOutbreak = dataOutbreak_all.--(exclusions)
@@ -115,6 +115,7 @@ object EDS {
     val rCon = new RConnection
     try {
       val indexedData = indexAndExclude(dataOutbreak, exclusions)
+//      println(indexedData)
       if (stop == "false") runAll(indexedData, rCon, mode, nYearsBack)
       else if (stop == "detect") runUntilDetection(indexedData, rCon, mode, nYearsBack)
       else runUntilConsecutive(indexedData, rCon, mode, nYearsBack)
@@ -142,6 +143,7 @@ object EDS {
       val maxDrop = indexedData.size - nYearsBack*12
       def loop(i: Int, acc: IndexedSeq[Result], flags: IndexedSeq[Int]): FarringtonResult2 = {
         val series = extractWindow(indexedData.dropRight(i), mode, nYearsBack)
+//        println(series)
         val x = Farrington.runFarrington(series, rCon, mode)
         val detected = if (x.isAlert) flags :+ x.date.idx.toInt else flags
         if (i == 0) FarringtonResult2(acc :+ x, detected)

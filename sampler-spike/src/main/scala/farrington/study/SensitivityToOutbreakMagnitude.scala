@@ -13,6 +13,7 @@ import java.nio.charset.Charset
 import java.nio.file.Path
 import sampler.r.script.RScript
 import java.nio.file.Files
+import farrington.core.outbreak.OutbreakData
 
 object SensitivityToOutbreakMagnitude extends App {  
   
@@ -62,9 +63,10 @@ object SensitivityToOutbreakMagnitude extends App {
     println(i)
     
     val results = (0 until nSimulations).par.map{ j => 
-      val data = SimulateOutbreakData.run(nData, endYear,outbreakShape, outbreakLength, endPreOutbreak, endOutbreak, magnitude(i))
-      val EDS_result = EDS.run(data, endBaseline, mode)
-      Measures.allMeasures(EDS_result, data.start, data.end)
+      val simData = SimulateOutbreakData.run(nData, endYear,outbreakShape, outbreakLength, endPreOutbreak, endOutbreak, magnitude(i))
+      val outbreakData = OutbreakData(simData.year, simData.month, simData.counts)
+      val EDS_result = EDS.run(outbreakData, endBaseline, mode)
+      Measures.allMeasures(EDS_result, simData.start, simData.end)
     }.toIndexedSeq
     AverageMeasures.calculate(results, nSimulations)
     

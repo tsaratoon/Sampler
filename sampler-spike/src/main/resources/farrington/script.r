@@ -3,16 +3,12 @@
 #outDir<-paste(homeDir, "results", sep="")
 #setwd(paste(homeDir,fileDir,sep=""))
 
- debug=F
- if(debug==T) {
-     library(rjson)
-     jsonIn = fromJSON(file="outR.json")
-     modeFlag = "stl"
-     basedata=jsonIn$Baseline
-     currentmth=jsonIn$Current$Month
-     currentCount=jsonIn$Current$Incident
-     startdte=jsonIn$StartDate
- }
+debug=F
+if(debug==T) {
+	library(rjson)
+	jsonIn = fromJSON(file="outR.json")
+	modeFlag ="apha"
+}
 
 require(rjson)
 
@@ -31,7 +27,7 @@ resThresh=2.58      #put swithch in java to vary? New Farrington algorithm uses 
 #######################################################
 
 disp<-function(i){
-	calc<- w*( ( (basecont-expected)^2 )/expected)
+	calc<- w*( ( (baselineCount-expected)^2 )/expected)
 	calc[expected<notZero]=notZero
 	calc
 }
@@ -46,7 +42,7 @@ disp<-function(i){
 # if model is to include linear trend then set 'trend0'=1, differnt calc of var
 threshold <-function(z,trend0){
 	ifelse(trend0==1, { 
-				var=varalpha+(currentmth*currentmth)*varbeta+(2*currentmth*covariance)
+				var=varalpha+(currentMonth*currentMonth)*varbeta+(2*currentMonth*covariance)
 			},{ var=varalpha })
 	tao<-(dispersion*expectedc+var)/(expectedc^2)
 	U<-expectedc*(1+(2/3)*z*(tao^0.5))^(3/2)
@@ -59,12 +55,17 @@ threshold <-function(z,trend0){
 #allData = read.csv("/home/user/ENVIRONMENT/workspaces/workspace_scala/FarringtonTest/results/baselineData.txt")
 #allData = as.data.frame(fromJSON(paste(readLines("r-in.json"), collapse="")))
 
-baselineNum = length(basedata$basemth)
-#baseData = allData[1:baselineNum,]
+baseline     = jsonIn$baseline
+currentMonth = jsonIn$current$month
+currentCount = jsonIn$current$incidents
+startDate    = jsonIn$startDate
+
+baselineNum = length(baseline$month)
+#baseline = allData[1:baselineNum,]
 #currentCount = allData[nrow(allData),"Incidents"]
-#currentmth = allData[nrow(allData), "MonthNum"]
-basemth = basedata$basemth
-basecont = basedata$basecont
+#currentMonth = allData[nrow(allData), "MonthNum"]
+baselineMonth = baseline$month
+baselineCount = baseline$count
 tsSeasonal=0   #set to 0 unless use in stl
 tsRandom=0     #set to 0 unless use in stl
 
@@ -75,9 +76,9 @@ if  ( modeFlag %in% c("far", "farNew") )  {
 	library(xtable)
 	library(polyCub)
 	library(surveillance)
-	#TODO: start needs to be two numbers year, month.  Get this from basedata$basemth???
+	#TODO: start needs to be two numbers year, month.  Get this from baseline$baselineMonth???
 	
-	DataF=disProg2sts(create.disProg(1:baselineNum,basecont,state=basecont*0,start=c(startdte$year,startdte$month),freq=12)) #put in format necessar for farringtonFlexible algorithm
+	DataF=disProg2sts(create.disProg(1:baselineNum,baselineCount,state=baselineCount*0,start=c(startDate$year,startDate$month),freq=12)) #put in format necessar for farringtonFlexible algorithm
 	
 	# define contol parameters: may want to make some of these switches in Scala code?
 	#b is number of years to use in calculations, w is number of months to use either side of current month
@@ -101,7 +102,7 @@ if  ( modeFlag %in% c("far", "farNew") )  {
 	} else  { 
 		data1=farringtonFlexible(DataF,control=control2) 
 	} 
- 
+	
 	nrowF=nrow(data1)
 	#expectedF=rev(control(data1)$expected[nrowF:(nrowF-143)])
 	#expectedNewF=rev(control(data2)$expected[nrowF:(nrowF-143)])
@@ -115,71 +116,71 @@ if  ( modeFlag %in% c("far", "farNew") )  {
 	#trendF=rev(control(data1)$trend[nrowF:(nrowF-143)])
 	#trendNewF=rev(control(data2)$trend[nrowF:(nrowF-143)])
 	
-#outputs
+	#outputs
 	#expectedc1=control(data1)$expected
 	#thresh1=upperbound(data1)
 	#exceed=control(data1)$score
 	#trend=control(data1)$trend
-	#w=rep(0,times=length(basedata$basemth))
+	#w=rep(0,times=length(baseline$baselineMonth))
 	
 	expectedc1=control(data1)$expected[nrowF]
 	thresh1=upperbound(data1)[nrowF]
 	exceed=control(data1)$score[nrowF]
 	trend=control(data1)$trend[nrowF]
-	w=rep(0,times=length(basedata$basemth))
-
+	w=rep(0,times=length(baseline$month))
+	
 	#plot(data1) 
 	#TODO: quit code here
 } else {
-#----- decomposition for full dataset use ------------------------------------------------
-#if ( modeFlag %in% c("stl", "apha") )  {
-    if (modeFlag =="stl") { 
-		tsData=ts(basecont,frequency=12,start=c(startdte$year,startdte$month)) 	#turn data into time series object
+	#----- decomposition for full dataset use ------------------------------------------------
+	#if ( modeFlag %in% c("stl", "apha") )  {
+	if (modeFlag =="stl") { 
+		tsData=ts(baselineCount,frequency=12,start=c(startDate$year,startDate$month)) 	#turn data into time series object
 		tsSplit=stl(tsData,s.window=12)                  #splits data into 'seasonal,'trend' and 'random' components
-		basecont=as.vector(tsSplit$time.series[,2]) +as.vector(tsSplit$time.series[,3]) #redefine basecont as just the trend and random component
+		baselineCount=as.vector(tsSplit$time.series[,2]) +as.vector(tsSplit$time.series[,3]) #redefine baselineCount as just the trend and random component
 		tsSeasonal=as.vector(tsSplit$time.series[,1])
-		tsRandom=0#as.vector(tsSplit$time.series[,3]) #including in basecont so set =0 here
+		tsRandom=0#as.vector(tsSplit$time.series[,3]) #including in baselineCount so set =0 here
 	}
-	basecont[basecont<=0]=0 #cant have -ve values for glm fit - shouldnt be -ve anyway
-	currentCount=basecont[length(basecont)]
+	baselineCount[baselineCount<=0]=0 #cant have -ve values for glm fit - shouldnt be -ve anyway
+	currentCount=baselineCount[length(baselineCount)]
 	#--------------------------------------------------------------------------------------------------
-	#basedata<-data.frame(basecont, basemth)
-	# currentCount<-Data2[currentmth, 2+2]  	#LEAVE AS [,2+2] so only look at INCIDENTS. If wish to look at isolations change to [,1+1]. 
-	n=length(basedata$basemth)
-	basemth<-c(1:n)
-	currentmth=max(basemth)
+	#baseline<-data.frame(baselineCount, baselineMonth)
+	# currentCount<-Data2[currentMonth, 2+2]  	#LEAVE AS [,2+2] so only look at INCIDENTS. If wish to look at isolations change to [,1+1]. 
+	n=length(baseline$month)
+	baselineMonth<-c(1:n)
+	currentMonth=max(baselineMonth)
 	w<-rep(1,times=n)					#Set weights = 1 
 	#----fit model with no linear trend----------------------------------------------------------------------------------------
-	model0<-glm(formula=basecont~1, family=quasipoisson(link=log), weights=w)  #model with no linear trend
-		param0<-coef(model0)
-		coeff0<-summary(model0)$coeff
+	model0<-glm(formula=baselineCount~1, family=quasipoisson(link=log), weights=w)  #model with no linear trend
+	param0<-coef(model0)
+	coeff0<-summary(model0)$coeff
 	#--------fit full model-------------------------------------------------------------------------------------------------
-	modelF<-glm(formula=basecont~basemth, family=quasipoisson(link=log))	#Fit model
-		paramF<-coef(modelF)
-		hatF<-lm.influence(modelF)$hat
+	modelF<-glm(formula=baselineCount~baselineMonth, family=quasipoisson(link=log))	#Fit model
+	paramF<-coef(modelF)
+	hatF<-lm.influence(modelF)$hat
 	#---calculate weights----------------     
-	expected<-exp(paramF[1]+(basemth*paramF[2]))  	#Estimate expected values
+	expected<-exp(paramF[1]+(baselineMonth*paramF[2]))  	#Estimate expected values
 	p<-2						#Number of esitmated parameters
 	calc<-sum(disp())					#First calculation of dispersion parameter
 	calc2<-1/(n-p)
 	dispersion<-if((calc2*calc)>1) calc2*calc else 1		#Calculate dispersion parameter final     
-	residuals1= (3/(2*(dispersion)^(1/2)))*(((basecont)^(2/3))-((expected)^(2/3))) / (((expected)^(1/6))*((1-hatF)^(1/2)))         
-		residuals1[expected<notZero]=notZero 
+	residuals1= (3/(2*(dispersion)^(1/2)))*(((baselineCount)^(2/3))-((expected)^(2/3))) / (((expected)^(1/6))*((1-hatF)^(1/2)))         
+	residuals1[expected<notZero]=notZero 
 	m<-length(residuals1[residuals1>resThresh])
 	k=rep(0,times=n)
-		k[residuals1>resThresh]=residuals1[residuals1>resThresh]^-2
+	k[residuals1>resThresh]=residuals1[residuals1>resThresh]^-2
 	y<-n/(sum(k)+(n-m))				#Calculate the weights
-		w=k*y
-		w[w==0]=y     
+	w=k*y
+	w[w==0]=y     
 	#----fit model with weights--------------------
-	modelW<-glm(formula=basecont~basemth, family=quasipoisson(link=log), weights=w)  
-		paramW<-coef(modelW)
-		if( any(is.na(paramW)) ) {modelW=modelF ;  paramW=coef(modelW) }
-		coeffW<-summary(modelW)$coeff
-		covaW<-vcov(modelW) 
+	modelW<-glm(formula=baselineCount~baselineMonth, family=quasipoisson(link=log), weights=w)  
+	paramW<-coef(modelW)
+	if( any(is.na(paramW)) ) {modelW=modelF ;  paramW=coef(modelW) }
+	coeffW<-summary(modelW)$coeff
+	covaW<-vcov(modelW) 
 	#---------------------------------------------------
-	expected<-exp(paramW[1]+(basemth*paramW[2]))  	#Estimate expected values again
-	expectedc<-exp(paramW[1]+(currentmth*paramW[2]))	#Estimate expected value for current month again	   
+	expected<-exp(paramW[1]+(baselineMonth*paramW[2]))  	#Estimate expected values again
+	expectedc<-exp(paramW[1]+(currentMonth*paramW[2]))	#Estimate expected value for current month again	   
 	varalpha<-coeffW[1,2]*coeffW[1,2]
 	varbeta<-coeffW[2,2]*coeffW[2,2]
 	covariance<-covaW[1,2]
@@ -193,8 +194,8 @@ if  ( modeFlag %in% c("far", "farNew") )  {
 	z<-1.96  
 	U<-threshold(z,1)		#Calculate the threshold 
 	trend=1          #denotes trend is included
-	if (!( (tvalue>ttest | tvalue < -ttest) & expectedc<=max(basecont)))  { 
-	    expected<-expected*0+exp(param0)
+	if (!( (tvalue>ttest | tvalue < -ttest) & expectedc<=max(baselineCount)))  { 
+		expected<-expected*0+exp(param0)
 		expectedc<-exp(param0)
 		trend=0
 		p<-1
@@ -213,21 +214,21 @@ if  ( modeFlag %in% c("far", "farNew") )  {
 	exceed<-(currentCount-expectedc)/(U-expectedc)
 	if (U==0) exceed<-0 else exceed<-exceed
 	
-	ifelse( (sum(basecont)==0 && currentCount>0),{exceed='>1'},{exceed=exceed})
+	ifelse( (sum(baselineCount)==0 && currentCount>0),{exceed='>1'},{exceed=exceed})
 	#----------transform back to original counts (add back in seasonality)-----------------
 	currentc1=currentCount+tsSeasonal[length(tsSeasonal)] +tsRandom[length(tsRandom)]
 	expectedc1=expectedc+tsSeasonal[length(tsSeasonal)] +tsRandom[length(tsRandom)]
 	thresh1=thresh+tsSeasonal[length(tsSeasonal)] +tsRandom[length(tsRandom)]
 	
 	
-	}
-	
-	#note if not taken out seasonality then nothing will change here.
+}
+
+#note if not taken out seasonality then nothing will change here.
 #----output data --------------------------------------------------------------------
-	output = toJSON(list(
-					"expected" = expectedc1[[1]],
-					"threshold" = thresh1[[1]],
-					"trend" = trend,
-					"exceed" = exceed[[1]],
-					"weights" = w
-			))
+output = toJSON(list(
+				"expected" = expectedc1[[1]],
+				"threshold" = thresh1[[1]],
+				"trend" = trend,
+				"exceed" = exceed[[1]],
+				"weights" = w
+		))

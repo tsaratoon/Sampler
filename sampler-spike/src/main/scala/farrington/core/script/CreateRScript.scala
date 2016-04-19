@@ -1,5 +1,7 @@
 package farrington.core.script
 
+// TODO Have R scripts read in from JSON files instead of CSV
+
 object CreateRScript {
   
   def plotSimulatedData(csvName: String, pdfName: String) = {

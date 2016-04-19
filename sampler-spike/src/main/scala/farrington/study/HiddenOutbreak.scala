@@ -9,11 +9,13 @@ import farrington.core.algorithm.EDS
 import farrington.core.measures.AverageMeasures
 import farrington.core.measures.Measures
 import farrington.core.simulate.BaselineData
-import farrington.core.simulate.OutbreakData
 import farrington.core.simulate.SimulateOutbreakData
 import sampler.r.script.RScript
 import sampler.r.rserve.RServeHelper
 import org.rosuda.REngine.Rserve.RConnection
+import farrington.core.outbreak.OutbreakData
+import farrington.core.outbreak.OutbreakData
+import farrington.core.simulate.SimulatedData
 
 /*
   =========
@@ -120,32 +122,33 @@ object HiddenOutbreak extends App{
     
     // Split the outbreak and add to the two smaller sets of baseline data:
     val (outbreak1, outbreak2) = SimulateOutbreakData.splitOutbreak(data.hist, data.start)
-    val data1 = OutbreakData(
+    val data1 = SimulatedData(
         year,
         month,
         baseline1,
         SimulateOutbreakData.addList(baseline1, outbreak1),
         outbreak1.map{ case (key, value) => (key - data.start + 1, value) },
         data.start,
-        data.end,
-        data.min,
-        data.max)
-    val data2 = OutbreakData(
+        data.end)
+    val data2 = SimulatedData(
         year,
         month,
         baseline2,
         SimulateOutbreakData.addList(baseline2, outbreak2),
         outbreak2.map{ case (key, value) => (key - data.start + 1, value) },
         data.start,
-        data.end,
-        data.min,
-        data.max)    
+        data.end)    
     
+    // Convert simulated data to outbreak data type
+    val outbreakData = OutbreakData(data.year, data.month, data.counts)
+    val outbreakData1 = OutbreakData(data1.year, data1.month, data1.counts)  
+    val outbreakData2 = OutbreakData(data2.year, data2.month, data2.counts)  
+        
     // Run EDS for each data set
     RServeHelper.ensureRunning()
-    val dataFull = EDS.run(data, endBaseline)
-    val dataSplit1 = EDS.run(data1, endBaseline)    
-    val dataSplit2 = EDS.run(data2, endBaseline)
+    val dataFull = EDS.run(outbreakData, endBaseline)
+    val dataSplit1 = EDS.run(outbreakData1, endBaseline)    
+    val dataSplit2 = EDS.run(outbreakData2, endBaseline)
     RServeHelper.shutdown
     
     // Calculate measures

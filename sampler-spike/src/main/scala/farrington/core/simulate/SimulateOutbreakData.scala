@@ -106,7 +106,7 @@ object SimulateOutbreakData {
       endOutbreak: Int,
       magnitude: Double,
       params: SimulationParams = SimulationParams.default
-    ): OutbreakData = {
+    ): SimulatedData = {
     
     import baselineData._
     
@@ -123,32 +123,29 @@ object SimulateOutbreakData {
 //    val poi_outbreak = new Poisson(magnitude * sd)
 //    val n = genPoisson(poi_outbreak)
     
-    val nBaseline = (0 until 7).map(i => baseline(tOutbreak-1+i)).sum
+    val nBaseline = (0 until 7).map(i => baseline(tOutbreak - 1 + i)).sum
     val n = math.round(magnitude * nBaseline).toInt
     
     // Calculate outbreak and distribute
     val outbreakDistribution =
       if (outbreakShape == "logNormal") logNormalOutbreak(n, outbreakLength)
       else epidemicCurveOutbreak(n, outbreakLength)
-      
-    val min = outbreakDistribution.min
-    val max = outbreakDistribution.max
     
     // Count number of outbreak cases for each month of the outbreak
-    val outbreakHist = 
-      outbreakDistribution.groupBy(w => w).mapValues(_.size).toList.sorted
-      
-    // Create list of pairs of time index and number of cases to be added
-    val outbreakIdx =
-      outbreakHist.map{case (key, value) => (key+tOutbreak-1, value)}
+    val outbreakHist =
+      outbreakDistribution
+        .groupBy(w => w)
+        .mapValues(_.size)
+        .toList.sorted
+        .map{case (key, value) => (key + tOutbreak, value)}
     
     // Last month of outbreak
-    val tEnd = outbreakIdx.last._1 + 1
+    val tEnd = outbreakHist.last._1
     
     // Add to baseline data to return simulated outbreak data
-    val dataOutbreak = addList(baseline,outbreakIdx)
+    val dataOutbreak = addList(baseline, outbreakHist.map{ case (k, v) => (k-1, v) })
     
-    OutbreakData(year, month, baseline, dataOutbreak, outbreakHist, tOutbreak, tEnd, min, max)     
+    SimulatedData(year, month, baseline, dataOutbreak, outbreakHist, tOutbreak, tEnd)     
     
   }
   
@@ -164,15 +161,17 @@ object SimulateOutbreakData {
     }
     val (count2, index) = count2_indexed.unzip
   
-    val outbreak1 =
-      count1.map{case (key, value) => (key+start-1, value)}    
-    val outbreak2 =
-      count2.map{case (key, value) => (key+start-1, value)}
+//    val outbreak1 =
+//      count1.map{case (key, value) => (key+start-1, value)}    
+//    val outbreak2 =
+//      count2.map{case (key, value) => (key+start-1, value)}
     
     //println("full = " + hist)
     //println("count1 = " + count1)
     //println("count2 = " + count2)
-    (outbreak1, outbreak2)
+//    (outbreak1, outbreak2)
+    
+    (count1, count2)
     
   }
   
@@ -187,7 +186,7 @@ object SimulateOutbreakData {
       endOutbreak: Int,
       magnitude: Double,
       params: SimulationParams = SimulationParams.default
-    ): OutbreakData = {
+    ): SimulatedData = {
     
     val baselineData = runBaseline(nData, endYear, params)
     

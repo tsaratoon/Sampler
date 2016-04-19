@@ -15,6 +15,7 @@ import farrington.core.json.JSON
 import farrington.core.result.Date
 import farrington.core.result.Result
 import farrington.core.result.ResultVector
+import play.api.libs.json.Json
 
 object Farrington {
   
@@ -47,7 +48,8 @@ object Farrington {
     
     val rScript = Source.fromURI(cl.getResource("farrington/script.r").toURI()).mkString
     
-    val json = JSON.buildTimeSeriesJSON(dataIn)
+    import JSON.timeSeriesWrites
+    val json = Json.toJson(dataIn)
         
     //Debug
     JSON.writeJSON(json, Paths.get("outR.json"))
@@ -56,16 +58,12 @@ object Farrington {
     val rExpression = {      
       import rCon._
       parseAndEval("""library(rjson)""")
-      assign("jsonIn", compact(render(json)))
+      assign("jsonIn", Json.prettyPrint(json))
       assign("modeFlag", mode.rFlag)
-      parseAndEval("basedata = as.data.frame(fromJSON(jsonIn)$Baseline)")
-      parseAndEval("currentCount = as.data.frame(fromJSON(jsonIn)$Current$Incidents)")
-      parseAndEval("currentmth = as.data.frame(fromJSON(jsonIn)$Current$Month)")
-      parseAndEval("startdte = as.data.frame(fromJSON(jsonIn)$StartDate)")
       parseAndEval(rScript)
       parseAndEval("output")
     }      
-    val rOut = parse(rExpression.asString())   
+    val rOut = Json.parse(rExpression.asString())   
     
     val (date, value) = dataIn.last  
     
@@ -78,7 +76,8 @@ object Farrington {
     
       val rScript = Source.fromURI(cl.getResource("farrington/scriptFarNew.r").toURI()).mkString  
     
-      val json = JSON.buildTimeSeriesJSON(dataIn)
+      import JSON.timeSeriesWrites
+      val json = Json.toJson(dataIn)
       
       //Debug
       JSON.writeJSON(json, Paths.get("outR.json"))
@@ -86,16 +85,12 @@ object Farrington {
       val rExpression = {      
         import rCon._
         parseAndEval("""library(rjson)""")
-        assign("jsonIn", compact(render(json)))
+        assign("jsonIn", Json.prettyPrint(json))
         assign("modeFlag", mode.rFlag)
-        parseAndEval("basedata = as.data.frame(fromJSON(jsonIn)$Baseline)")
-        parseAndEval("currentCount = as.data.frame(fromJSON(jsonIn)$Current$Incidents)")
-        parseAndEval("currentmth = as.data.frame(fromJSON(jsonIn)$Current$Month)")
-        parseAndEval("startdte = as.data.frame(fromJSON(jsonIn)$StartDate)")
         parseAndEval(rScript)
         parseAndEval("output")
       }        
-      val rOut = parse(rExpression.asString())
+      val rOut = Json.parse(rExpression.asString())
   
       val date = dataIn.keys.toIndexedSeq
       val value = dataIn.values.toIndexedSeq

@@ -12,6 +12,7 @@ import java.nio.charset.Charset
 import farrington.core.measures.AverageMeasures
 import farrington.core.measures.Measures
 import org.rosuda.REngine.Rserve.RConnection
+import farrington.core.outbreak.OutbreakData
 
 object CompareEDS extends App {
   
@@ -70,23 +71,26 @@ object CompareEDS extends App {
 
   val measures_apha = (0 until nSimulations).par.map{ i =>
     println(i)
-    val data = SimulateOutbreakData.run(nData, endYear, outbreakShape, outbreakLength, endPreOutbreak, endOutbreak, magnitude)    
-    val EDS_APHA = EDS.run(data, endBaseline, Farrington.APHA)
-    Measures.allMeasures(EDS_APHA, data.start, data.end)
+    val simData = SimulateOutbreakData.run(nData, endYear, outbreakShape, outbreakLength, endPreOutbreak, endOutbreak, magnitude)
+    val outbreakData = OutbreakData(simData.year, simData.month, simData.counts)  
+    val EDS_APHA = EDS.run(outbreakData, endBaseline, Farrington.APHA)
+    Measures.allMeasures(EDS_APHA, simData.start, simData.end)
   }.toIndexedSeq
   
   val measures_farNew = (0 until nSimulations).par.map{ i =>
     println(i)    
-    val data = SimulateOutbreakData.run(nData, endYear, outbreakShape, outbreakLength, endPreOutbreak, endOutbreak, magnitude)
-    val EDS_FarNew = EDS.run(data, endBaseline, Farrington.FarNew)
-    Measures.allMeasures(EDS_FarNew, data.start, data.end)
+    val simData = SimulateOutbreakData.run(nData, endYear, outbreakShape, outbreakLength, endPreOutbreak, endOutbreak, magnitude)
+    val outbreakData = OutbreakData(simData.year, simData.month, simData.counts)
+    val EDS_FarNew = EDS.run(outbreakData, endBaseline, Farrington.FarNew)
+    Measures.allMeasures(EDS_FarNew, simData.start, simData.end)
   }.toIndexedSeq
   
   val measures_stl = (0 until nSimulations).par.map{ i =>
     println(i)    
-    val data = SimulateOutbreakData.run(nData, endYear, outbreakShape, outbreakLength, endPreOutbreak, endOutbreak, magnitude)
-    val EDS_Stl = EDS.run(data, endBaseline, Farrington.Stl)  
-    Measures.allMeasures(EDS_Stl, data.start, data.end)
+    val simData = SimulateOutbreakData.run(nData, endYear, outbreakShape, outbreakLength, endPreOutbreak, endOutbreak, magnitude)
+    val outbreakData = OutbreakData(simData.year, simData.month, simData.counts)  
+    val EDS_Stl = EDS.run(outbreakData, endBaseline, Farrington.Stl)  
+    Measures.allMeasures(EDS_Stl, simData.start, simData.end)
   }.toIndexedSeq
   
   RServeHelper.shutdown
